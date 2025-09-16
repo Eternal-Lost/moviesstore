@@ -5,12 +5,12 @@ def subscription_tier(request):
     if request.user.is_authenticated:
         total_spent = Order.objects.filter(user=request.user).aggregate(total=Sum('total'))['total'] or 0
 
-        if total_spent >= 500:
+        if total_spent >= 50:
             tier = "Premium"
-        elif total_spent >= 100:
-            tier = "Basic"
+        elif total_spent >= 30:
+            tier = "Medium"
         else:
-            tier = "Free"
+            tier = "Basic"
     else:
         tier = None
 
