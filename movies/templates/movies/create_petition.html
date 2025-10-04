@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class = "container p-4">
+ <h2>Create Petition</h2>
+ <form method = "POST">
+    {%csrf_token%}
+    <div class = "mb-3">
+        <label class = "form-label"> Title </label>
+        <input name = "title" class = "form-control" />
+    </div>
+    <div class = "mb-3">
+        <label class = "form-label"> Description </label>
+        <input name = "description" class = "form-control" row = "5"></textarea>
+    </div>
+    <button class = "btn btn-primary" type = "submit">Create</button>
+    <a class = "btn bt-secondary" href = "{% url 'movies.petitions'%}">Cancel</a>
+ </form>
+</div>
+{% endblock content %}

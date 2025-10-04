@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container p-4">
+ <h2>Petitons</h2>
+ <p>
+    <a class = "btn bt-primary" href = "{% url 'movies.create_petition'%}">Create Petition</a>
+ </p>
+
+ {% if template_data.petitions %}
+    <div class = "list-group">
+        {% for p in template_data.petitions %}
+         <div class = "list-group-item">
+            <div class = "d-flex w-100 justify-content-between">
+                <h5 class = "mb-1"> {{ p.title }} </h5>
+                <small> {{p.created_date }}</small>
+            </div>
+            <p class = "mb-1"> {{ p.description }}</p>
+            <p class = "mb-1"> Created by: {{ p.created_by_user }}</p>
+            <div>
+                <span class="me-3">Yes: {{ p.vote_count }}</span>
+                {% if user.is_authenticated %}
+                    <form method = "POST" action = "{% url 'movies.vote_petition' petition_id=p.id%}" style = "display:inline;">
+                        {% csrf_token %}
+                        {% if user in p.votes.all %}
+                            <button class = "btn bt-sm btn-outline-danger" type="submit">Remove Vote</button>
+                        {% else %}
+                            <button class = "btn bt-sm btn-success" type="submit">Vote Yes!</button>
+                        {% endif %}
+                    </form>
+                {% else %}
+                    <a href = "{% url 'accounts.login' %}" class = "btn btn-sm btn-secondary"> Login to vote</a>
+                {% endif%}
+            </div>
+         </div>
+        {% endfor %}
+    </div>
+ {% else %}
+    <p>There are no petitions yet.</p>
+ {% endif %}
+</div>
+{% endblock content %}
